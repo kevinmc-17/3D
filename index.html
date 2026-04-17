@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Print3D SJ - Impresion 3D en San Juan</title>
+  <meta name="description" content="Tienda de impresion 3D en San Juan, Argentina. Figuras, hogar, accesorios, miniaturas y personalizados.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            neon: "#FF6600"
+          },
+          boxShadow: {
+            neon: "0 0 0 1px rgba(255,102,0,0.3), 0 8px 30px rgba(255,102,0,0.15)"
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans antialiased">
+  <!-- NAVBAR FIJA -->
+  <header class="fixed top-0 inset-x-0 z-40 border-b border-zinc-800/80 bg-zinc-950/85 backdrop-blur">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="h-16 flex items-center gap-3 sm:gap-4">
+        <a href="#" class="shrink-0 flex items-center gap-2">
+          <span class="inline-block w-8 h-8 rounded-lg bg-neon/90"></span>
+          <span class="font-bold tracking-wide">Print3D SJ</span>
+        </a>
+
+        <div class="flex-1">
+          <input id="navSearchInput" type="text" placeholder="Buscar producto..."
+            class="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm outline-none focus:border-neon">
+        </div>
+
+        <select id="navCategorySelect"
+          class="rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm outline-none focus:border-neon">
+          <option value="all">Categorias</option>
+          <option value="Figuras">Figuras</option>
+          <option value="Hogar">Hogar</option>
+          <option value="Accesorios">Accesorios</option>
+          <option value="Miniaturas">Miniaturas</option>
+          <option value="Personalizados">Personalizados</option>
+        </select>
+
+        <button id="openCartFromNav"
+          class="relative rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm hover:border-neon transition">
+          Carrito
+          <span id="navCartCount"
+            class="ml-2 inline-flex min-w-5 h-5 items-center justify-center rounded-full bg-neon px-1 text-xs font-semibold text-black">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="relative min-h-[78vh] pt-16">
+      <img
+        src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=1600&q=80"
+        alt="Impresora 3D trabajando"
+        class="absolute inset-0 h-full w-full object-cover opacity-35">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-zinc-950/60 to-zinc-950"></div>
+      <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+        <div class="max-w-2xl">
+          <p class="inline-flex rounded-full border border-neon/50 bg-neon/10 px-3 py-1 text-xs text-neon">
+            Impresion 3D personalizada en Argentina
+          </p>
+          <p class="mt-3 text-sm text-zinc-300">
+            Todas las impresiones se realizan con el modelo de impresora: <span class="font-semibold text-zinc-100">Sovol SV06 Ace</span>.
+          </p>
+          <h1 class="mt-5 text-4xl sm:text-5xl md:text-6xl font-black leading-tight">
+            Dale forma a tus ideas con <span class="text-neon">Print3D AR</span>
+          </h1>
+          <p class="mt-5 text-zinc-300 text-base sm:text-lg">
+            Figuras, miniaturas, accesorios y soluciones funcionales impresas con precision.
+          </p>
+          <button id="heroExploreBtn"
+            class="mt-8 rounded-xl bg-neon px-6 py-3 font-semibold text-black shadow-neon hover:scale-[1.02] transition-transform">
+            Explorar productos
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FILTROS -->
+    <section id="filtersSection" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      <div class="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4 sm:p-6">
+        <h2 class="text-xl font-bold mb-5">Filtrar productos</h2>
+        <div class="grid gap-4">
+          <input id="mainSearchInput" type="text" placeholder="Busqueda en tiempo real..."
+            class="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm outline-none focus:border-neon">
+
+          <div id="categoryButtons" class="flex flex-wrap gap-2">
+            <button data-category="all" class="category-btn rounded-full border border-zinc-700 px-4 py-2 text-sm bg-neon text-black">Todos</button>
+            <button data-category="Figuras" class="category-btn rounded-full border border-zinc-700 px-4 py-2 text-sm hover:border-neon transition">Figuras</button>
+            <button data-category="Hogar" class="category-btn rounded-full border border-zinc-700 px-4 py-2 text-sm hover:border-neon transition">Hogar</button>
+            <button data-category="Accesorios" class="category-btn rounded-full border border-zinc-700 px-4 py-2 text-sm hover:border-neon transition">Accesorios</button>
+            <button data-category="Miniaturas" class="category-btn rounded-full border border-zinc-700 px-4 py-2 text-sm hover:border-neon transition">Miniaturas</button>
+            <button data-category="Personalizados" class="category-btn rounded-full border border-zinc-700 px-4 py-2 text-sm hover:border-neon transition">Personalizados</button>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label for="minPrice" class="text-sm text-zinc-400">Precio minimo: <span id="minPriceLabel">$5.000</span></label>
+              <input id="minPrice" type="range" min="5000" max="50000" step="500" value="5000" class="w-full accent-neon">
+            </div>
+            <div>
+              <label for="maxPrice" class="text-sm text-zinc-400">Precio maximo: <span id="maxPriceLabel">$50.000</span></label>
+              <input id="maxPrice" type="range" min="5000" max="50000" step="500" value="50000" class="w-full accent-neon">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID DE PRODUCTOS -->
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-24">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-2xl font-bold">Catalogo</h2>
+        <p id="productsCount" class="text-sm text-zinc-400"></p>
+      </div>
+      <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+      <p id="emptyState" class="hidden mt-10 text-center text-zinc-400">No hay productos para esos filtros.</p>
+    </section>
+  </main>
+
+  <!-- MODAL PRODUCTO -->
+  <div id="productModal" class="fixed inset-0 z-50 hidden">
+    <div id="modalBackdrop" class="absolute inset-0 bg-black/70 opacity-0 transition-opacity duration-300"></div>
+    <div class="relative h-full overflow-y-auto p-4 sm:p-6 flex items-center justify-center">
+      <div id="modalPanel"
+        class="w-full max-w-4xl rounded-2xl border border-zinc-800 bg-zinc-900 shadow-xl opacity-0 translate-y-3 transition-all duration-300">
+        <div class="grid md:grid-cols-2">
+          <div class="p-4 sm:p-6">
+            <img id="modalImage" src="" alt="" class="w-full h-64 sm:h-80 object-cover rounded-xl border border-zinc-800">
+          </div>
+          <div class="p-4 sm:p-6 border-t md:border-t-0 md:border-l border-zinc-800">
+            <div class="flex items-start justify-between gap-3">
+              <h3 id="modalName" class="text-2xl font-bold"></h3>
+              <button id="closeModalBtn" class="text-zinc-400 hover:text-white text-2xl leading-none">&times;</button>
+            </div>
+            <p id="modalPrice" class="mt-2 text-neon text-xl font-bold"></p>
+            <p id="modalDescription" class="mt-3 text-zinc-300 text-sm"></p>
+
+            <div class="mt-5">
+              <div id="variantModeContainer" class="hidden mb-3">
+                <p class="text-sm text-zinc-400 mb-2">Configuracion</p>
+                <div class="inline-flex rounded-xl border border-zinc-700 overflow-hidden">
+                  <button id="variantModeSimpleBtn" type="button" class="px-3 py-2 text-xs hover:bg-zinc-800">Simple (color)</button>
+                  <button id="variantModeTeamBtn" type="button" class="px-3 py-2 text-xs hover:bg-zinc-800 border-l border-zinc-700">Personalizado (equipo)</button>
+                </div>
+              </div>
+              <p id="variantTitle" class="text-sm text-zinc-400 mb-2">Color</p>
+              <div id="colorSwatches" class="flex flex-wrap gap-2"></div>
+              <p class="mt-2 text-xs text-zinc-400">Seleccionado: <span id="selectedVariantLabel" class="text-zinc-200">-</span></p>
+            </div>
+
+            <div class="mt-5">
+              <p class="text-sm text-zinc-400 mb-2">Cantidad</p>
+              <div class="inline-flex items-center rounded-xl border border-zinc-700">
+                <button id="qtyMinusBtn" class="px-3 py-2 hover:bg-zinc-800">-</button>
+                <input id="qtyInput" type="number" min="1" value="1"
+                  class="w-14 bg-transparent text-center outline-none border-x border-zinc-700 py-2">
+                <button id="qtyPlusBtn" class="px-3 py-2 hover:bg-zinc-800">+</button>
+              </div>
+            </div>
+
+            <div class="mt-5">
+              <label for="notesInput" class="text-sm text-zinc-400">Especificaciones / Notas personalizadas</label>
+              <textarea id="notesInput" rows="3"
+                placeholder="Ej: Imprimir con soporte extra, escala 150%, acabado mate..."
+                class="mt-2 w-full rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm outline-none focus:border-neon"></textarea>
+            </div>
+
+            <p id="modalTotal" class="mt-5 text-lg font-semibold">Total: $0</p>
+
+            <div class="mt-5 grid gap-2 sm:grid-cols-2">
+              <button id="modalAddToCartBtn"
+                class="rounded-xl bg-neon px-4 py-3 font-semibold text-black hover:scale-[1.01] transition-transform">
+                Anadir al carrito
+              </button>
+              <button id="modalWhatsappBtn"
+                class="rounded-xl border border-zinc-700 px-4 py-3 font-semibold hover:border-neon transition">
+                Pedir directamente por WhatsApp
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARRITO FLOTANTE -->
+  <button id="floatingCartBtn"
+    class="fixed right-4 bottom-4 z-40 rounded-full bg-neon text-black w-14 h-14 shadow-neon font-bold hover:scale-105 transition-transform">
+    🛒
+    <span id="floatingCartCount"
+      class="absolute -top-1 -right-1 inline-flex min-w-5 h-5 items-center justify-center rounded-full bg-zinc-900 px-1 text-xs text-neon border border-neon">0</span>
+  </button>
+
+  <aside id="cartPanel"
+    class="fixed right-0 top-0 z-50 h-full w-full max-w-md translate-x-full bg-zinc-900 border-l border-zinc-800 transition-transform duration-300">
+    <div class="h-full flex flex-col">
+      <div class="p-4 border-b border-zinc-800 flex items-center justify-between">
+        <h3 class="text-lg font-bold">Tu carrito</h3>
+        <button id="closeCartBtn" class="text-zinc-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+      <div class="p-4 border-t border-zinc-800 space-y-3">
+        <p class="text-lg font-semibold">Total general: <span id="cartTotal">$0</span></p>
+        <button id="sendCartWhatsappBtn"
+          class="w-full rounded-xl bg-neon px-4 py-3 font-semibold text-black hover:scale-[1.01] transition-transform">
+          Enviar pedido completo por WhatsApp
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- TOAST -->
+  <div id="toast"
+    class="fixed left-1/2 -translate-x-1/2 bottom-6 z-[60] rounded-xl border border-neon/60 bg-zinc-900 px-4 py-2 text-sm text-zinc-100 opacity-0 pointer-events-none transition-opacity duration-300">
+    Producto anadido al carrito
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-zinc-800 bg-zinc-950 mt-6">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center sm:justify-between text-sm text-zinc-400">
+      <p>© Print3D AR - Impresion 3D en San Juan</p>
+      <div class="flex items-center gap-4">
+        <a class="hover:text-neon transition" href="https://wa.me/" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a class="hover:text-neon transition" href="https://instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ==========================
+    // CONFIGURACION RAPIDA
+    // ==========================
+    // Cambia este numero por el real del disenador (formato internacional sin + ni espacios).
+    const WHATSAPP_NUMBER = "542644050866";
+
+    // Colores disponibles globales para mapear swatches.
+    const COLOR_MAP = {
+      "Negro": "#111111",
+      "Blanco": "#f5f5f5",
+      "Rojo": "#ef4444",
+      "Azul": "#3b82f6",
+      "Verde": "#22c55e",
+      "Dorado": "#f59e0b"
+    };
+
+    // ==========================
+    // PRODUCTOS (facil de ampliar)
+    // ==========================
+    const products = [
+      {
+        id: 1,
+        name: "Beerzooka",
+        category: "Accesorios",
+        price: 12000,
+        image: "img/Beerzooka.png",
+        description: "El Beerzooka es un innovador soporte para latas impreso en 3D, diseñado para mantener dos bebidas frías y permitir una recarga rápida y sin abolladuras.",
+        colors: ["Negro", "Blanco", "Rojo", "Azul"]
+      },
+      {
+        id: 2,
+        name: "Soporte celular",
+        category: "Hogar",
+        price: 4000,
+        image: "img/porta telefono.png",
+        description: "Soporte sencillo y practico para celulares.",
+        colors: ["Negro", "Blanco", "Azul", "Verde"]
+      },
+      {
+        id: 3,
+        name: "Gengar",
+        category: "Figura",
+        price: 500,
+        image: ["img/gengar.png","img/gengar 2.png"],
+        description: "Gengar es un Pokémon de tipo Fantasma/Veneno. Es conocido por su apariencia misteriosa y su habilidad para controlar el alma de sus enemigos.",
+        colors: ["Morado"]
+      },
+      {
+        id: 4,
+        name: "Llavero personalizado",
+        category: "Accesorios",
+        price: 500,
+        image: ["img/llavero personalizado A.png", "img/llavero personalizado B.png", "img/llavero personalizado C.png", "img/llavero personalizado D.png"],
+        description: "Llavero unico con nombre, logo o frase personalizada.",
+        colors: ["Negro", "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+      {
+        id: 5,
+        name: "Maceta personalizada",
+        category: "Hogar",
+        price: 4000,
+        image: "img/macetas personalizadas.png",
+        description: "Diseno moderno para decorar espacios interiores.",
+        colors: ["Negro", "Blanco", "Verde", "Dorado"]
+      },
+      {
+        id: 6,
+        name: "warhammer",
+        category: "Figuras",
+        price: 1000-5000,
+        image: "img/warhammer.png",
+        description: "warhammer es un juego de miniaturas de guerra.",
+        colors: ["Negro", "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+      {
+        id: 7,
+        name: "cenicero",
+        category: "Hogar",
+        price: 6000,
+        image: "img/cenicero.png",
+        description: "cenicero simple y practico con diferentes modelos.",
+        colors: ["Negro", "Blanco", "Azul", "Verde"]
+      },
+      {
+        id: 8,
+        name: "escala humana",
+        category: "Personalizados",
+        price: 1200-3500,
+        image: "img/escala humana.png",
+        description: "escala humana para proyectos personales.",
+        colors: ["Negro", "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+      {
+        id: 9,
+        name: "calendario",
+        category: "Hogar",
+        price: 7000,
+        image: "img/Calendario.png",
+        description: "calendario con diferentes modelos.",
+        colors: ["Negro", "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+      {
+        id: 10,
+        name: "rompecabezas",
+        category: "Hogar",
+        price: 7000,
+        image: "img/rompecabezas.png",
+        description: "rompecabezas con diferentes modelos.",
+        colors: ["Negro", "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+      {
+        id: 11,
+        name: "porta lapicero",
+        category: "Hogar",
+        price: 10000,
+        image: "img/lapicero.png",
+        description: "porta lapicero con diferentes modelos.",
+        colors: ["Negro", "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+      {
+        id: 12,
+        name: "Cabeza de darth vader twist fidget",
+        category: "Figura",
+        price: 13000,
+        image: "img/darth vader twist fidget.png",
+        description: "darth vader es un personaje de Star Wars.Cabeza con movimiento.", 
+        colors: ["Negro"]
+      },
+      {
+        id:13,
+        name: "porta celulares(mundial)",
+        category: "Accesorios",
+        price: 5000,
+        image: "img/soporte celular.png",
+        description: "porta celulares practico de llevar en el bolsillo.",
+        colors: ["Negro" , "Blanco", "Rojo", "Azul", "Verde", "Dorado"],
+        teams: ["Argentina", "Brasil", "Francia", "Alemania", "España", "Italia", "Inglaterra"]
+      },
+      {
+        id:14,
+        name: "soporte de dedos",
+        category: "Accesorios",
+        price: 600,
+        image: "img/soporte de dedos.png",
+        description: "soporte de dedos practico de llevar en el bolsillo.", 
+        colors: ["Negro" , "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+      {
+        id:15,
+        name: "dragon(con movimiento)",
+        category: "Figura",
+        price: 5000,
+        image: "img/dragon con movimiento.png",
+        description: "dragon con movimiento de serpiente.", 
+        colors: ["Negro" , "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+      {
+        id:16,
+        name: "tiburo(con movimiento)",
+        category: "Figura",
+        price: 3000,
+        image: "img/tiburon con movimiento.png",
+        description: "tiburo con movimiento de serpiente.", 
+        colors: ["Negro" , "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+      {
+        id:17,
+        name: "dragón",
+        category: "Figura",
+        price: 2000,
+        image: "img/dragon.png",
+        description: "figura de dragón.", 
+        colors: ["Negro" , "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+      {
+        id:18,
+        name: "escudos",
+        category: "Figura",
+        price: 500,
+        image: "img/escudos.png",
+        description: "escudos de tu equipo favorito (a pedido).", 
+        theme: "futbol",
+        colors: ["River" , "Boca", "San Martín", "Desamparado", "Independiente", "Racing Club", "San Lorenzo", "Trinida", "Colon", "otro"]
+      },
+      {
+        id:19,
+        name: "casa decorativa",
+        category: "Hogar",
+        price: 10000,
+        image: "img/casa.png",
+        description: "casa decorativa con diferentes modelos.", 
+        colors: ["Negro", "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+      {
+        id:20,
+        name: "cuelga llaves",
+        category: "Accesorios",
+        price: 7000,
+        image: "img/cuelga llaves.png",
+        description: "cuelga llaves con diferentes modelos.",
+        colors: ["Negro" , "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
+      },
+    ];
+
+    // ==========================
+    // ESTADO GLOBAL
+    // ==========================
+    const filters = {
+      query: "",
+      category: "all",
+      minPrice: 5000,
+      maxPrice: 50000
+    };
+    const cart = [];
+    let currentProduct = null;
+    let selectedColor = "";
+    let selectedVariantMode = "simple"; // "simple" (color) | "team" (equipo)
+    let modalImageTimer = null;
+    let modalImageIndex = 0;
+
+    // ==========================
+    // ELEMENTOS DOM
+    // ==========================
+    const productsGrid = document.getElementById("productsGrid");
+    const productsCount = document.getElementById("productsCount");
+    const emptyState = document.getElementById("emptyState");
+    const minPriceInput = document.getElementById("minPrice");
+    const maxPriceInput = document.getElementById("maxPrice");
+    const minPriceLabel = document.getElementById("minPriceLabel");
+    const maxPriceLabel = document.getElementById("maxPriceLabel");
+    const mainSearchInput = document.getElementById("mainSearchInput");
+    const navSearchInput = document.getElementById("navSearchInput");
+    const navCategorySelect = document.getElementById("navCategorySelect");
+    const categoryButtonsContainer = document.getElementById("categoryButtons");
+
+    const productModal = document.getElementById("productModal");
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const modalPanel = document.getElementById("modalPanel");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const modalName = document.getElementById("modalName");
+    const modalPrice = document.getElementById("modalPrice");
+    const modalDescription = document.getElementById("modalDescription");
+    const modalImage = document.getElementById("modalImage");
+    const variantModeContainer = document.getElementById("variantModeContainer");
+    const variantModeSimpleBtn = document.getElementById("variantModeSimpleBtn");
+    const variantModeTeamBtn = document.getElementById("variantModeTeamBtn");
+    const variantTitle = document.getElementById("variantTitle");
+    const colorSwatches = document.getElementById("colorSwatches");
+    const selectedVariantLabel = document.getElementById("selectedVariantLabel");
+    const qtyInput = document.getElementById("qtyInput");
+    const qtyMinusBtn = document.getElementById("qtyMinusBtn");
+    const qtyPlusBtn = document.getElementById("qtyPlusBtn");
+    const notesInput = document.getElementById("notesInput");
+    const modalTotal = document.getElementById("modalTotal");
+    const modalAddToCartBtn = document.getElementById("modalAddToCartBtn");
+    const modalWhatsappBtn = document.getElementById("modalWhatsappBtn");
+
+    const openCartFromNav = document.getElementById("openCartFromNav");
+    const floatingCartBtn = document.getElementById("floatingCartBtn");
+    const closeCartBtn = document.getElementById("closeCartBtn");
+    const cartPanel = document.getElementById("cartPanel");
+    const cartItems = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
+    const sendCartWhatsappBtn = document.getElementById("sendCartWhatsappBtn");
+    const navCartCount = document.getElementById("navCartCount");
+    const floatingCartCount = document.getElementById("floatingCartCount");
+    const toast = document.getElementById("toast");
+
+    // ==========================
+    // UTILIDADES
+    // ==========================
+    function hasTeamPersonalization(product) {
+      return product?.id === 13 && Array.isArray(product?.teams) && product.teams.length > 0;
+    }
+
+    function normalizeProductImages(product) {
+      const img = product?.image;
+      if (Array.isArray(img)) return img.filter(Boolean);
+      if (typeof img === "string" && img.trim()) return [img.trim()];
+      return [];
+    }
+
+    function getPrimaryProductImage(product) {
+      return normalizeProductImages(product)[0] || "";
+    }
+
+    function stopModalImageRotation() {
+      if (modalImageTimer) {
+        clearInterval(modalImageTimer);
+        modalImageTimer = null;
+      }
+      modalImageIndex = 0;
+    }
+
+    function startModalImageRotation(images) {
+      stopModalImageRotation();
+      if (!Array.isArray(images) || images.length < 2) return;
+      modalImageTimer = setInterval(() => {
+        if (!currentProduct) return;
+        modalImageIndex = (modalImageIndex + 1) % images.length;
+        modalImage.src = images[modalImageIndex];
+      }, 5000);
+    }
+
+    function isFootballTheme(product) {
+      return product?.theme === "futbol";
+    }
+
+    function resolveVariantMode(product, mode) {
+      if (isFootballTheme(product)) return "team";
+      if (hasTeamPersonalization(product)) return mode === "team" ? "team" : "simple";
+      return "simple";
+    }
+
+    function getVariantLabel(product, mode) {
+      const m = resolveVariantMode(product, mode);
+      return m === "team" ? "Equipo" : "Color";
+    }
+
+    function getVariantValues(product, mode) {
+      const m = resolveVariantMode(product, mode);
+      if (m === "team") return isFootballTheme(product) ? (product.colors || []) : (product.teams || []);
+      return product.colors || [];
+    }
+
+    function setVariantMode(mode) {
+      if (!currentProduct) return;
+      selectedVariantMode = resolveVariantMode(currentProduct, mode);
+      variantModeSimpleBtn.classList.toggle("bg-neon", selectedVariantMode === "simple");
+      variantModeSimpleBtn.classList.toggle("text-black", selectedVariantMode === "simple");
+      variantModeTeamBtn.classList.toggle("bg-neon", selectedVariantMode === "team");
+      variantModeTeamBtn.classList.toggle("text-black", selectedVariantMode === "team");
+
+      const values = getVariantValues(currentProduct, selectedVariantMode);
+      selectedColor = values[0] || "";
+      variantTitle.textContent = getVariantLabel(currentProduct, selectedVariantMode);
+      selectedVariantLabel.textContent = selectedColor || "-";
+      if (resolveVariantMode(currentProduct, selectedVariantMode) === "team") {
+        renderTeams(values);
+      } else {
+        renderSwatches(values);
+      }
+    }
+
+    function formatPrice(value) {
+      return "$" + value.toLocaleString("es-AR");
+    }
+
+    function sanitizeQty(value) {
+      const n = Number(value);
+      return Number.isFinite(n) && n > 0 ? Math.floor(n) : 1;
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.remove("opacity-0");
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => toast.classList.add("opacity-0"), 1600);
+    }
+
+    // ==========================
+    // RENDER PRODUCTOS
+    // ==========================
+    function getFilteredProducts() {
+      return products.filter((p) => {
+        const byQuery = (p.name + " " + p.category + " " + p.description).toLowerCase().includes(filters.query.toLowerCase());
+        const byCategory = filters.category === "all" ? true : p.category === filters.category;
+        const byMin = p.price >= filters.minPrice;
+        const byMax = p.price <= filters.maxPrice;
+        return byQuery && byCategory && byMin && byMax;
+      });
+    }
+
+    function renderProducts() {
+      const list = getFilteredProducts();
+      productsGrid.innerHTML = "";
+      productsCount.textContent = `${list.length} producto(s)`;
+      emptyState.classList.toggle("hidden", list.length > 0);
+
+      list.forEach((p) => {
+        const card = document.createElement("article");
+        card.className = "rounded-2xl border border-zinc-800 bg-zinc-900 overflow-hidden hover:-translate-y-1 hover:shadow-neon transition-all";
+        card.innerHTML = `
+          <img src="${getPrimaryProductImage(p)}" alt="${p.name}" class="h-44 w-full object-cover">
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="font-semibold">${p.name}</h3>
+              <span class="text-xs rounded-full border border-neon/60 text-neon px-2 py-1">${p.category}</span>
+            </div>
+            <p class="mt-2 text-neon font-bold">${formatPrice(p.price)}</p>
+            <p class="mt-2 text-sm text-zinc-400 line-clamp-2">${p.description}</p>
+            <div class="mt-4 grid grid-cols-2 gap-2">
+              <button data-action="details" data-id="${p.id}" class="rounded-xl border border-zinc-700 px-3 py-2 text-sm hover:border-neon transition">Ver detalles</button>
+              <button data-action="quick-add" data-id="${p.id}" class="rounded-xl bg-neon px-3 py-2 text-sm font-semibold text-black hover:scale-[1.01] transition-transform">Anadir al carrito</button>
+            </div>
+          </div>
+        `;
+        productsGrid.appendChild(card);
+      });
+    }
+
+    // ==========================
+    // MODAL
+    // ==========================
+    function openModal(product) {
+      currentProduct = product;
+      selectedVariantMode = resolveVariantMode(product, "simple");
+      const initialValues = getVariantValues(product, selectedVariantMode);
+      selectedColor = initialValues[0] || (product.colors?.[0] ?? "Negro");
+      qtyInput.value = 1;
+      notesInput.value = "";
+
+      modalName.textContent = product.name;
+      modalPrice.textContent = formatPrice(product.price);
+      modalDescription.textContent = product.description;
+      const images = normalizeProductImages(product);
+      modalImageIndex = 0;
+      modalImage.src = images[0] || "";
+      modalImage.alt = product.name;
+      startModalImageRotation(images);
+      variantModeContainer.classList.toggle("hidden", !hasTeamPersonalization(product));
+      if (hasTeamPersonalization(product)) {
+        setVariantMode(selectedVariantMode);
+      } else {
+        variantTitle.textContent = getVariantLabel(product, selectedVariantMode);
+        selectedVariantLabel.textContent = selectedColor;
+        const resolvedMode = resolveVariantMode(product, selectedVariantMode);
+        const values = getVariantValues(product, resolvedMode);
+        if (resolvedMode === "team") renderTeams(values);
+        else renderSwatches(values);
+      }
+      updateModalTotal();
+
+      productModal.classList.remove("hidden");
+      requestAnimationFrame(() => {
+        modalBackdrop.classList.remove("opacity-0");
+        modalPanel.classList.remove("opacity-0", "translate-y-3");
+      });
+    }
+
+    function closeModal() {
+      stopModalImageRotation();
+      currentProduct = null;
+      modalBackdrop.classList.add("opacity-0");
+      modalPanel.classList.add("opacity-0", "translate-y-3");
+      setTimeout(() => productModal.classList.add("hidden"), 220);
+    }
+
+    function renderSwatches(colors) {
+      colorSwatches.innerHTML = "";
+      colors.forEach((colorName) => {
+        const colorHex = COLOR_MAP[colorName] || "#71717a";
+        const btn = document.createElement("button");
+        const active = colorName === selectedColor;
+        btn.className = `group flex items-center gap-2 rounded-full border px-2 py-1 text-xs transition ${
+          active ? "border-neon bg-neon/10" : "border-zinc-700 hover:border-neon/80"
+        }`;
+        btn.innerHTML = `
+          <span class="inline-block w-5 h-5 rounded-full border border-zinc-600" style="background:${colorHex};"></span>
+          <span>${colorName}</span>
+        `;
+        btn.addEventListener("click", () => {
+          selectedColor = colorName;
+          selectedVariantLabel.textContent = selectedColor;
+          renderSwatches(colors);
+        });
+        colorSwatches.appendChild(btn);
+      });
+    }
+
+    function renderTeams(teams) {
+      colorSwatches.innerHTML = "";
+      teams.forEach((teamName) => {
+        const btn = document.createElement("button");
+        const active = teamName === selectedColor;
+        btn.className = `rounded-full border px-3 py-2 text-xs transition ${
+          active ? "border-neon bg-neon/10" : "border-zinc-700 hover:border-neon/80"
+        }`;
+        btn.textContent = teamName;
+        btn.addEventListener("click", () => {
+          selectedColor = teamName;
+          selectedVariantLabel.textContent = selectedColor;
+          renderTeams(teams);
+        });
+        colorSwatches.appendChild(btn);
+      });
+    }
+
+    function updateModalTotal() {
+      if (!currentProduct) return;
+      const qty = sanitizeQty(qtyInput.value);
+      qtyInput.value = qty;
+      modalTotal.textContent = `Total: ${formatPrice(currentProduct.price * qty)}`;
+    }
+
+    // ==========================
+    // CARRITO
+    // ==========================
+    function addToCart(product, options = {}) {
+      const quantity = sanitizeQty(options.quantity ?? 1);
+      const color = options.color || product.colors[0] || "Negro";
+      const notes = (options.notes || "").trim();
+      const variantMode = resolveVariantMode(product, options.variantMode ?? "simple");
+      const variantLabel = getVariantLabel(product, variantMode);
+
+      const existing = cart.find((item) =>
+        item.productId === product.id &&
+        item.variantMode === variantMode &&
+        item.color === color &&
+        item.notes === notes
+      );
+      if (existing) {
+        existing.quantity += quantity;
+      } else {
+        cart.push({
+          uid: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
+          productId: product.id,
+          name: product.name,
+          unitPrice: product.price,
+          quantity,
+          color,
+          variantMode,
+          variantLabel,
+          notes
+        });
+      }
+
+      renderCart();
+      showToast("Producto anadido al carrito");
+    }
+
+    function removeCartItem(uid) {
+      const idx = cart.findIndex((item) => item.uid === uid);
+      if (idx >= 0) cart.splice(idx, 1);
+      renderCart();
+    }
+
+    function getCartTotal() {
+      return cart.reduce((acc, item) => acc + item.unitPrice * item.quantity, 0);
+    }
+
+    function getCartCount() {
+      return cart.reduce((acc, item) => acc + item.quantity, 0);
+    }
+
+    function renderCart() {
+      cartItems.innerHTML = "";
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p class="text-sm text-zinc-400">Todavia no agregaste productos.</p>';
+      } else {
+        cart.forEach((item) => {
+          const row = document.createElement("div");
+          row.className = "rounded-xl border border-zinc-800 bg-zinc-950 p-3";
+          row.innerHTML = `
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="font-medium">${item.name}</p>
+                <p class="text-xs text-zinc-400 mt-1">Cant: ${item.quantity} | ${item.variantLabel || "Color"}: ${item.color}</p>
+                ${item.notes ? `<p class="text-xs text-zinc-500 mt-1">Notas: ${item.notes}</p>` : ""}
+              </div>
+              <div class="text-right">
+                <p class="font-semibold">${formatPrice(item.unitPrice * item.quantity)}</p>
+                <button data-remove="${item.uid}" class="mt-2 text-xs text-red-400 hover:text-red-300">Quitar</button>
+              </div>
+            </div>
+          `;
+          cartItems.appendChild(row);
+        });
+      }
+
+      const total = getCartTotal();
+      cartTotal.textContent = formatPrice(total);
+      navCartCount.textContent = String(getCartCount());
+      floatingCartCount.textContent = String(getCartCount());
+
+      cartItems.querySelectorAll("[data-remove]").forEach((btn) => {
+        btn.addEventListener("click", () => removeCartItem(btn.dataset.remove));
+      });
+    }
+
+    // ==========================
+    // WHATSAPP
+    // ==========================
+    function buildWhatsappText(items) {
+      const lines = [
+        "Hola! Quiero hacer un pedido en Print3D AR:",
+        ""
+      ];
+
+      items.forEach((it, index) => {
+        const subtotal = it.unitPrice * it.quantity;
+        const label = it.variantLabel || "Color";
+        lines.push(
+          `${index + 1}) ${it.name} - Cantidad: ${it.quantity} - ${label}: ${it.color} - Subtotal: ${formatPrice(subtotal)}`
+        );
+        if (it.notes) lines.push(`   Especificaciones: ${it.notes}`);
+      });
+
+      const total = items.reduce((acc, it) => acc + (it.unitPrice * it.quantity), 0);
+      lines.push("", `Total: ${formatPrice(total)}`, "¿Cuando lo imprimimos? Gracias!");
+      return lines.join("\n");
+    }
+
+    function openWhatsappWithMessage(message) {
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+    }
+
+    // ==========================
+    // EVENTOS
+    // ==========================
+    function setCategory(category) {
+      filters.category = category;
+      navCategorySelect.value = category;
+      categoryButtonsContainer.querySelectorAll(".category-btn").forEach((btn) => {
+        const active = btn.dataset.category === category;
+        btn.classList.toggle("bg-neon", active);
+        btn.classList.toggle("text-black", active);
+      });
+      renderProducts();
+    }
+
+    function setSearch(text) {
+      filters.query = text.trim();
+      mainSearchInput.value = filters.query;
+      navSearchInput.value = filters.query;
+      renderProducts();
+    }
+
+    function syncPriceFilters() {
+      let min = Number(minPriceInput.value);
+      let max = Number(maxPriceInput.value);
+      if (min > max) [min, max] = [max, min];
+      filters.minPrice = min;
+      filters.maxPrice = max;
+      minPriceInput.value = min;
+      maxPriceInput.value = max;
+      minPriceLabel.textContent = formatPrice(min);
+      maxPriceLabel.textContent = formatPrice(max);
+      renderProducts();
+    }
+
+    productsGrid.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-action]");
+      if (!btn) return;
+      const id = Number(btn.dataset.id);
+      const product = products.find((p) => p.id === id);
+      if (!product) return;
+
+      if (btn.dataset.action === "details") openModal(product);
+      if (btn.dataset.action === "quick-add") addToCart(product, { quantity: 1, color: product.colors[0], notes: "" });
+    });
+
+    closeModalBtn.addEventListener("click", closeModal);
+    modalBackdrop.addEventListener("click", closeModal);
+
+    qtyMinusBtn.addEventListener("click", () => {
+      qtyInput.value = Math.max(1, sanitizeQty(qtyInput.value) - 1);
+      updateModalTotal();
+    });
+    qtyPlusBtn.addEventListener("click", () => {
+      qtyInput.value = sanitizeQty(qtyInput.value) + 1;
+      updateModalTotal();
+    });
+    qtyInput.addEventListener("input", updateModalTotal);
+
+    modalAddToCartBtn.addEventListener("click", () => {
+      if (!currentProduct) return;
+      addToCart(currentProduct, {
+        quantity: qtyInput.value,
+        color: selectedColor,
+        variantMode: selectedVariantMode,
+        notes: notesInput.value
+      });
+      closeModal();
+    });
+
+    modalWhatsappBtn.addEventListener("click", () => {
+      if (!currentProduct) return;
+      const oneItem = [{
+        productId: currentProduct.id,
+        name: currentProduct.name,
+        unitPrice: currentProduct.price,
+        quantity: sanitizeQty(qtyInput.value),
+        color: selectedColor,
+        variantMode: selectedVariantMode,
+        variantLabel: getVariantLabel(currentProduct, selectedVariantMode),
+        notes: notesInput.value.trim()
+      }];
+      openWhatsappWithMessage(buildWhatsappText(oneItem));
+    });
+
+    variantModeSimpleBtn.addEventListener("click", () => setVariantMode("simple"));
+    variantModeTeamBtn.addEventListener("click", () => setVariantMode("team"));
+
+    sendCartWhatsappBtn.addEventListener("click", () => {
+      if (cart.length === 0) {
+        showToast("Tu carrito esta vacio");
+        return;
+      }
+      openWhatsappWithMessage(buildWhatsappText(cart));
+    });
+
+    [openCartFromNav, floatingCartBtn].forEach((btn) => {
+      btn.addEventListener("click", () => cartPanel.classList.remove("translate-x-full"));
+    });
+    closeCartBtn.addEventListener("click", () => cartPanel.classList.add("translate-x-full"));
+
+    categoryButtonsContainer.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-category]");
+      if (!btn) return;
+      setCategory(btn.dataset.category);
+    });
+
+    navCategorySelect.addEventListener("change", () => setCategory(navCategorySelect.value));
+    mainSearchInput.addEventListener("input", () => setSearch(mainSearchInput.value));
+    navSearchInput.addEventListener("input", () => setSearch(navSearchInput.value));
+    minPriceInput.addEventListener("input", syncPriceFilters);
+    maxPriceInput.addEventListener("input", syncPriceFilters);
+
+    document.getElementById("heroExploreBtn").addEventListener("click", () => {
+      document.getElementById("filtersSection").scrollIntoView({ behavior: "smooth" });
+    });
+
+    // ==========================
+    // INIT
+    // ==========================
+    syncPriceFilters();
+    setCategory("all");
+    renderCart();
+  </script>
+</body>
+</html>
