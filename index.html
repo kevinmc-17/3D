@@ -107,11 +107,11 @@
           <div class="grid sm:grid-cols-2 gap-4">
             <div>
               <label for="minPrice" class="text-sm text-zinc-400">Precio minimo: <span id="minPriceLabel">$1.000</span></label>
-              <input id="minPrice" type="range" min="5000" max="50000" step="500" value="5000" class="w-full accent-neon">
+              <input id="minPrice" type="range" min="1000" max="50000" step="500" value="1000" class="w-full accent-neon">
             </div>
             <div>
               <label for="maxPrice" class="text-sm text-zinc-400">Precio maximo: <span id="maxPriceLabel">$50.000</span></label>
-              <input id="maxPrice" type="range" min="5000" max="50000" step="500" value="50000" class="w-full accent-neon">
+              <input id="maxPrice" type="range" min="1000" max="50000" step="500" value="50000" class="w-full accent-neon">
             </div>
           </div>
         </div>
@@ -308,7 +308,7 @@
         id: 6,
         name: "warhammer",
         category: "Figuras",
-        price: 1000-5000,
+        price: 3000,
         image: "img/warhammer.png",
         description: "warhammer es un juego de miniaturas de guerra.",
         colors: ["Negro", "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
@@ -326,7 +326,7 @@
         id: 8,
         name: "escala humana",
         category: "Personalizados",
-        price: 1200-3500,
+        price: 2350,
         image: "img/escala humana.png",
         description: "escala humana para proyectos personales.",
         colors: ["Negro", "Blanco", "Rojo", "Azul", "Verde", "Dorado"]
@@ -449,7 +449,7 @@
     const filters = {
       query: "",
       category: "all",
-      minPrice: 5000,
+      minPrice: 1000,
       maxPrice: 50000
     };
     const cart = [];
