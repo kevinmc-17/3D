@@ -833,7 +833,7 @@
     // ==========================
     function buildWhatsappText(items) {
       const lines = [
-        "Hola! Quiero hacer un pedido en Print3D AR:",
+        "Hola! Quiero hacer un pedido en Print3D SJ:",
         ""
       ];
 
@@ -847,7 +847,7 @@
       });
 
       const total = items.reduce((acc, it) => acc + (it.unitPrice * it.quantity), 0);
-      lines.push("", `Total: ${formatPrice(total)}`, "¿Cuando lo imprimimos? Gracias!");
+      lines.push("", `Total: ${formatPrice(total)}`, "¿De cuanto es el tiempo de espera? Gracias!");
       return lines.join("\n");
     }
 
